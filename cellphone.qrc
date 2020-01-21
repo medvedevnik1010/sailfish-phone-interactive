@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="main.qml">qml/cellphone/main.qml</file>
+        <file alias="CellphoneCanvas.qml">qml/cellphone/cellphonecanvas.qml</file>
+        <file alias="cellphone.js">qml/cellphone/cellphone.js</file>
+        <file alias="cellphone_case.json">qml/cellphone/cellphone_case.json</file>
+        <file alias="cellphone_front.json">qml/cellphone/cellphone_front.json</file>
+        <file alias="cellphone_icon.json">qml/cellphone/cellphone_icon.json</file>
+        <file alias="front.png">images/front.png</file>
+        <file alias="sailfish_logo.png">images/sailfish_logo.png</file>
+        <file alias="three.js">qml/cellphone/three.js</file>
+    </qresource>
+</RCC>
