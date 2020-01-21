@@ -105,35 +105,30 @@ Window {
             left: parent.left
             top: parent.top
             right: parent.right
-            bottom: radioRow.top
-        }
-    }
-
-    Row {
-        id: radioRow
-
-        anchors {
-            left: parent.left
             bottom: column.top
-        }
-
-        RadioButton {
-            id: rotationRadio
-            checked: true
-            text: qsTr("Rotation")
-        }
-        RadioButton {
-            text: qsTr("Move")
         }
     }
 
     Column {
         id: column
-
         anchors {
-            left: parent.left
-            right: parent.right
             bottom: parent.bottom
+            bottomMargin: 10
+            left: parent.left
+            right: parent.horizontalCenter
+        }
+
+        Row {
+            id: radioRow
+            anchors.left: parent.left
+            RadioButton {
+                id: rotationRadio
+                checked: true
+                text: qsTr("Rotation")
+            }
+            RadioButton {
+                text: qsTr("Move")
+            }
         }
 
         Repeater {
@@ -152,7 +147,7 @@ Window {
                 }
                 Slider {
                     id: slider
-                    width: column.width / 3
+                    width: column.width - 100
                     from: modelData.sliderStart
                     to: modelData.sliderEnd
                     value: modelData.currentValue
@@ -172,6 +167,43 @@ Window {
                         text = slider.value.toFixed(2)
                     }
                 }
+            }
+        }
+    }
+
+    Label {
+        id: resultLabel
+        anchors {
+            left: parent.horizontalCenter
+            top: column.top
+            topMargin: 10
+        }
+        text: qsTr("Resulting Values")
+    }
+
+    GroupBox {
+        id: groupBox
+        anchors {
+            right: parent.right
+            left: parent.horizontalCenter
+            top: resultLabel.bottom
+            bottom: parent.bottom
+            rightMargin: 10
+            bottomMargin: 10
+            topMargin: 10
+        }
+        Column {
+            anchors.verticalCenter: parent.verticalCenter
+            spacing: 20
+
+            Label {
+                text: qsTr("Accelerometer (m/s2):")
+            }
+            Label {
+                text: qsTr("Gyroscope (rad/s):")
+            }
+            Label {
+                text: qsTr("Magnetometer (μT):")
             }
         }
     }
