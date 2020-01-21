@@ -61,29 +61,42 @@ Window {
     title: "Sailfish Phone"
     color: "white"
 
-    property var rotationModel: [{
+    property var slidersModel: [{
+            "visible": rotationRadio.checked,
             "text": qsTr("X-Rot"),
             "sliderStart": -270,
             "sliderEnd": 90,
             "currentValue": -90
         }, {
+            "visible": rotationRadio.checked,
             "text": qsTr("Y-Rot"),
             "sliderStart": -180,
             "sliderEnd": 180,
             "currentValue": 0
         }, {
+            "visible": rotationRadio.checked,
             "text": qsTr("Z-Rot"),
             "sliderStart": 0,
             "sliderEnd": 360,
             "currentValue": 180
-        }]
-
-    property var moveModel: [{
-            "text": qsTr("X")
         }, {
-            "text": qsTr("Y")
+            "visible": !rotationRadio.checked,
+            "text": "X",
+            "sliderStart": -2,
+            "sliderEnd": 2,
+            "currentValue": 0
         }, {
-            "text": qsTr("Z")
+            "visible": !rotationRadio.checked,
+            "text": "Y",
+            "sliderStart": -2,
+            "sliderEnd": 2,
+            "currentValue": 0
+        }, {
+            "visible": !rotationRadio.checked,
+            "text": "Z",
+            "sliderStart": -2,
+            "sliderEnd": 2,
+            "currentValue": 0
         }]
 
     CellphoneCanvas {
@@ -116,7 +129,6 @@ Window {
 
     Column {
         id: column
-        visible: rotationRadio.checked
 
         anchors {
             left: parent.left
@@ -125,97 +137,65 @@ Window {
         }
 
         Repeater {
-            model: rotationModel
+            model: slidersModel
             delegate: Row {
+                visible: modelData.visible
                 anchors {
                     left: parent.left
                     leftMargin: 10
                     right: parent.right
                 }
                 Label {
-                    id: rotationLabel
-                    anchors.verticalCenter: rotationSlider.verticalCenter
+                    id: sliderLabel
+                    anchors.verticalCenter: slider.verticalCenter
                     text: modelData.text
                 }
                 Slider {
-                    id: rotationSlider
-                    width: column.width/3
+                    id: slider
+                    width: column.width / 3
                     from: modelData.sliderStart
                     to: modelData.sliderEnd
                     value: modelData.currentValue
 
-                    onValueChanged: switch (index) {
-                                    case 0:
-                                        canvas3d.xRotAnim = value
-                                        break
-                                    case 1:
-                                        canvas3d.yRotAnim = value
-                                        break
-                                    case 2:
-                                        canvas3d.zRotAnim = value
-                                        break
-                                    }
+                    onValueChanged: setPositioningValues(index, value)
                 }
                 TextInput {
-                    anchors.verticalCenter: rotationSlider.verticalCenter
-                    validator: DoubleValidator{decimals: 2; notation: DoubleValidator.StandardNotation }
-                    text: rotationSlider.value.toFixed(2).replace('.', ',')
-                    onEditingFinished: rotationSlider.value = parseFloat(text)
+                    anchors.verticalCenter: slider.verticalCenter
+                    validator: DoubleValidator {
+                        locale: "C"
+                        decimals: 2
+                        notation: DoubleValidator.StandardNotation
+                    }
+                    text: slider.value.toFixed(2)
+                    onEditingFinished: {
+                        slider.value = parseFloat(text.replace(',', '.'))
+                        text = slider.value.toFixed(2)
+                    }
                 }
             }
         }
     }
 
-    Column {
-        id: moveColumn
-        visible: !rotationRadio.checked
-
-        anchors {
-            left: parent.left
-            right: parent.right
-            bottom: parent.bottom
-        }
-        Repeater {
-            id: moveSlidersRepeater
-            model: moveModel
-
-            delegate: Row {
-                anchors {
-                    left: parent.left
-                    leftMargin: 10
-                    right: parent.right
-                }
-
-                Label {
-                    id: moveLabel
-                    anchors.verticalCenter: moveSlider.verticalCenter
-                    text: modelData.text
-                }
-                Slider {
-                    id: moveSlider
-                    width: column.width/3
-                    from: -2
-                    to: 2
-                    value: 0
-                    onValueChanged: switch (index) {
-                                    case 0:
-                                        canvas3d.xMoveAnim = value
-                                        break
-                                    case 1:
-                                        canvas3d.yMoveAnim = value
-                                        break
-                                    case 2:
-                                        canvas3d.zMoveAnim = value
-                                        break
-                                    }
-                }
-                TextInput {
-                    anchors.verticalCenter: moveSlider.verticalCenter
-                    validator: DoubleValidator{decimals: 2; notation: DoubleValidator.StandardNotation }
-                    text: moveSlider.value.toFixed(2).replace('.', ',')
-                    onEditingFinished: moveSlider.value = parseFloat(text)
-                }
-            }
+    function setPositioningValues(index, value) {
+        switch (index) {
+        case 0:
+            canvas3d.xRotAnim = value
+            break
+        case 1:
+            canvas3d.yRotAnim = value
+            break
+        case 2:
+            canvas3d.zRotAnim = value
+            break
+        case 3:
+            canvas3d.xMoveAnim = value
+            break
+        case 4:
+            canvas3d.yMoveAnim = value
+            break
+        case 5:
+            canvas3d.zMoveAnim = value
+            break
         }
     }
 }
