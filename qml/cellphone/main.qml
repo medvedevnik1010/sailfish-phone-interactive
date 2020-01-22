@@ -172,10 +172,10 @@ Window {
                         decimals: 2
                         notation: DoubleValidator.StandardNotation
                     }
-                    text: slider.value.toFixed(2)
+                    text: (slider.value - modelData.baseValue).toFixed(2)
                     onEditingFinished: {
-                        slider.value = parseFloat(text.replace(',', '.'))
-                        text = slider.value.toFixed(2)
+                        slider.value = parseFloat(text.replace(',', '.')) + modelData.baseValue
+                        text = (slider.value - modelData.baseValue).toFixed(2)
                     }
                 }
             }
