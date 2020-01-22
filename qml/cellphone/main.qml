@@ -150,8 +150,7 @@ Window {
                     width: column.width - 100
                     from: modelData.sliderStart
                     to: modelData.sliderEnd
-                    value: modelData.currentValue
-
+                    value: currentValue(index, modelData.currentValue)
                     onValueChanged: setPositioningValues(index, value)
                 }
                 TextInput {
@@ -211,23 +210,40 @@ Window {
     function setPositioningValues(index, value) {
         switch (index) {
         case 0:
-            canvas3d.xRotAnim = value
+            canvas3d.xRotValue = value
             break
         case 1:
-            canvas3d.yRotAnim = value
+            canvas3d.yRotValue = value
             break
         case 2:
-            canvas3d.zRotAnim = value
+            canvas3d.zRotValue = value
             break
         case 3:
-            canvas3d.xMoveAnim = value
+            canvas3d.xMoveValue = value
             break
         case 4:
-            canvas3d.yMoveAnim = value
+            canvas3d.yMoveValue = value
             break
         case 5:
-            canvas3d.zMoveAnim = value
+            canvas3d.zMoveValue = value
             break
+        }
+    }
+
+    function currentValue(index, value) {
+        switch (index) {
+        case 0:
+            return canvas3d.xRotValue === value ? value : canvas3d.xRotValue
+        case 1:
+            return canvas3d.yRotValue === value ? value : canvas3d.yRotValue
+        case 2:
+            return canvas3d.zRotValue === value ? value : canvas3d.zRotValue
+        case 3:
+            return canvas3d.xMoveValue === value ? value : canvas3d.xMoveValue
+        case 4:
+            return canvas3d.yMoveValue === value ? value : canvas3d.yMoveValue
+        case 5:
+            return canvas3d.zMoveValue === value ? value : canvas3d.zMoveValue
         }
     }
 }

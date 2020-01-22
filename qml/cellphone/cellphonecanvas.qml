@@ -55,12 +55,12 @@ import "cellphone.js" as GLCode
 
 Canvas3D {
     id: canvas3d
-    property double xRotAnim: -90
-    property double yRotAnim: 0
-    property double zRotAnim: 180
-    property double xMoveAnim: 0
-    property double yMoveAnim: 0
-    property double zMoveAnim: 0
+    property double xRotValue: -90
+    property double yRotValue: 0
+    property double zRotValue: 180
+    property double xMoveValue: 0
+    property double yMoveValue: 0
+    property double zMoveValue: 0
     property double distance: 2
     property double cameraAngle: 0
     property string caseColor: "#ff0000"

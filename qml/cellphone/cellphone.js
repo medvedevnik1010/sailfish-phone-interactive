@@ -188,12 +188,12 @@ function paintGL(canvas) {
     if (meshesReady) {
         var cameraRad = degToRad(canvas.cameraAngle);
         var lightRad = cameraRad - 0.8;
-        caseMesh.rotation.x = degToRad(canvas.xRotAnim);
-        caseMesh.rotation.y = degToRad(canvas.yRotAnim);
-        caseMesh.rotation.z = cameraRad + degToRad(canvas.zRotAnim);
-        caseMesh.position.x = canvas.xMoveAnim;
-        caseMesh.position.y = canvas.yMoveAnim;
-        caseMesh.position.z = canvas.zMoveAnim;
+        caseMesh.rotation.x = degToRad(canvas.xRotValue);
+        caseMesh.rotation.y = degToRad(canvas.yRotValue);
+        caseMesh.rotation.z = cameraRad + degToRad(canvas.zRotValue);
+        caseMesh.position.x = canvas.xMoveValue;
+        caseMesh.position.y = canvas.yMoveValue;
+        caseMesh.position.z = canvas.zMoveValue;
         frontMesh.rotation.set(caseMesh.rotation.x, caseMesh.rotation.y, caseMesh.rotation.z);
         frontMesh.position.set(caseMesh.position.x, caseMesh.position.y, caseMesh.position.z);
         iconMesh.rotation.set(caseMesh.rotation.x, caseMesh.rotation.y, caseMesh.rotation.z);
