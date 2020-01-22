@@ -9,5 +9,9 @@
         <file alias="front.png">images/front.png</file>
         <file alias="sailfish_logo.png">images/sailfish_logo.png</file>
         <file alias="three.js">qml/cellphone/three.js</file>
+        <file alias="phone_1.png">images/phone_1.png</file>
+        <file alias="phone_2.png">images/phone_2.png</file>
+        <file alias="phone_3.png">images/phone_3.png</file>
+        <file alias="phone_4.png">images/phone_4.png</file>
     </qresource>
 </RCC>

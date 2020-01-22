@@ -66,37 +66,47 @@ Window {
             "text": qsTr("X-Rot"),
             "sliderStart": -270,
             "sliderEnd": 90,
-            "currentValue": -90
+            "baseValue": -90
         }, {
             "visible": rotationRadio.checked,
             "text": qsTr("Y-Rot"),
             "sliderStart": -180,
             "sliderEnd": 180,
-            "currentValue": 0
+            "baseValue": 0
         }, {
             "visible": rotationRadio.checked,
             "text": qsTr("Z-Rot"),
             "sliderStart": 0,
             "sliderEnd": 360,
-            "currentValue": 180
+            "baseValue": 180
         }, {
             "visible": !rotationRadio.checked,
             "text": "X",
             "sliderStart": -2,
             "sliderEnd": 2,
-            "currentValue": 0
+            "baseValue": 0
         }, {
             "visible": !rotationRadio.checked,
             "text": "Y",
             "sliderStart": -2,
             "sliderEnd": 2,
-            "currentValue": 0
+            "baseValue": 0
         }, {
             "visible": !rotationRadio.checked,
             "text": "Z",
             "sliderStart": -2,
             "sliderEnd": 2,
-            "currentValue": 0
+            "baseValue": 0
+        }]
+
+    property var iconsModel: [{
+            "iconSource": "phone_1.png"
+        }, {
+            "iconSource": "phone_2.png"
+        }, {
+            "iconSource": "phone_3.png"
+        }, {
+            "iconSource": "phone_4.png"
         }]
 
     CellphoneCanvas {
@@ -105,18 +115,20 @@ Window {
             left: parent.left
             top: parent.top
             right: parent.right
-            bottom: column.top
+            bottom: slidersColumn.top
         }
     }
 
     Column {
-        id: column
+        id: slidersColumn
         anchors {
             bottom: parent.bottom
+            top: column.top
             bottomMargin: 10
             left: parent.left
             right: parent.horizontalCenter
         }
+        spacing: 10
 
         Row {
             id: radioRow
@@ -147,10 +159,10 @@ Window {
                 }
                 Slider {
                     id: slider
-                    width: column.width - 100
+                    width: slidersColumn.width - 100
                     from: modelData.sliderStart
                     to: modelData.sliderEnd
-                    value: currentValue(index, modelData.currentValue)
+                    value: currentValue(index, modelData.baseValue)
                     onValueChanged: setPositioningValues(index, value)
                 }
                 TextInput {
@@ -170,14 +182,46 @@ Window {
         }
     }
 
-    Label {
-        id: resultLabel
+    Column {
+        id: column
         anchors {
             left: parent.horizontalCenter
-            top: column.top
+            right: parent.right
             topMargin: 10
+            bottomMargin: 10
+            bottom: groupBox.top
         }
-        text: qsTr("Resulting Values")
+        spacing: 10
+
+        Label {
+            anchors.left: parent.left
+            text: qsTr("Device Rotation")
+        }
+        Row {
+            spacing: 10
+            anchors {
+                right: parent.right
+                rightMargin: 10
+                left: parent.left
+            }
+            Repeater {
+                model: iconsModel
+                delegate: Button {
+                    height: name.height + 10
+                    width: name.height + 10
+                    Image {
+                        id: name
+                        anchors.centerIn: parent
+                        source: modelData.iconSource
+                    }
+                    onClicked: switchOrientation(index)
+                }
+            }
+        }
+        Label {
+            anchors.left: parent.left
+            text: qsTr("Resulting Values")
+        }
     }
 
     GroupBox {
@@ -185,15 +229,13 @@ Window {
         anchors {
             right: parent.right
             left: parent.horizontalCenter
-            top: resultLabel.bottom
             bottom: parent.bottom
             rightMargin: 10
             bottomMargin: 10
-            topMargin: 10
         }
         Column {
             anchors.verticalCenter: parent.verticalCenter
-            spacing: 20
+            spacing: 10
 
             Label {
                 text: qsTr("Accelerometer (m/s2):")
@@ -204,6 +246,25 @@ Window {
             Label {
                 text: qsTr("Magnetometer (μT):")
             }
+        }
+    }
+
+    function switchOrientation(index) {
+        canvas3d.xRotValue = slidersModel[0].baseValue
+        canvas3d.zRotValue = slidersModel[2].baseValue
+        switch (index) {
+        case 0:
+            canvas3d.yRotValue = slidersModel[1].baseValue
+            break
+        case 1:
+            canvas3d.yRotValue = slidersModel[1].baseValue + 90
+            break
+        case 2:
+            canvas3d.yRotValue = slidersModel[1].baseValue + 180
+            break
+        case 3:
+            canvas3d.yRotValue = slidersModel[1].baseValue - 90
+            break
         }
     }
 
